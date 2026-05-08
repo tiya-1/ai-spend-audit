@@ -48,14 +48,26 @@ export default function AISummary({
   }, [result]);
 
   return (
-    <div className="rounded-3xl border border-purple-200 bg-white p-6 shadow-lg">
-      <h3 className="text-2xl font-bold text-black mb-4">
-        AI Personalized Summary
-      </h3>
+    <div className="rounded-[32px] border border-purple-500/20 bg-gradient-to-br from-[#12061d] to-[#1a0826] p-8">
+      <div className="flex items-start gap-5">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 text-3xl">
+          ✨
+        </div>
 
-      <p className="text-gray-700 text-lg leading-relaxed">
-        {summary}
-      </p>
+        <div className="flex-1">
+          <h3 className="text-4xl font-black text-white">
+            AI Personalized Summary
+          </h3>
+
+          <p className="mt-2 text-purple-300">
+            Generated using live LLM analysis
+          </p>
+
+          <p className="mt-6 text-xl leading-relaxed text-gray-200">
+            {summary}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

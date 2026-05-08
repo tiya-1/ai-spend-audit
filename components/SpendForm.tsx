@@ -1,26 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import { runAudit } from "@/lib/auditEngine";
+import { saveAuditToFirebase } from "@/lib/firebase";
 
 export default function SpendForm() {
   const router = useRouter();
 
+  const [loading, setLoading] =
+    useState(false);
+
   const [form, setForm] = useState({
     tool: "",
-    plan: "",
+    currentPlan: "",
     spend: "",
     seats: "",
     teamSize: "",
     useCase: "",
   });
 
-  const [loading, setLoading] =
-    useState(false);
-
-  // Load saved form
   useEffect(() => {
     const saved =
       localStorage.getItem(
@@ -32,28 +31,25 @@ export default function SpendForm() {
     }
   }, []);
 
-  // Save form
-  useEffect(() => {
-    localStorage.setItem(
-      "ai-spend-form",
-      JSON.stringify(form)
-    );
-  }, [form]);
-
-  // Handle changes
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement
     >
   ) => {
-    setForm({
+    const updated = {
       ...form,
       [e.target.name]:
         e.target.value,
-    });
+    };
+
+    setForm(updated);
+
+    localStorage.setItem(
+      "ai-spend-form",
+      JSON.stringify(updated)
+    );
   };
 
-  // Submit
   const handleSubmit = async (
     e: React.FormEvent
   ) => {
@@ -61,285 +57,289 @@ export default function SpendForm() {
 
     setLoading(true);
 
-    setTimeout(() => {
-      const auditResult =
-        runAudit(form);
+    try {
+      const cleanedForm = {
+        ...form,
 
-      // Save audit result
+        spend:
+          Number(form.spend) || 0,
+
+        seats:
+          Number(form.seats) || 0,
+
+        teamSize:
+          Number(form.teamSize) || 0,
+      };
+
+      const auditResult =
+        runAudit(cleanedForm);
+
+      console.log(
+        "AUDIT RESULT:",
+        auditResult
+      );
+
       localStorage.setItem(
         "audit-result",
         JSON.stringify(auditResult)
       );
 
-      // Redirect to results page
-      router.push("/results");
+      await saveAuditToFirebase({
+        ...cleanedForm,
+        ...auditResult,
+        createdAt:
+          new Date().toISOString(),
+      });
 
+      router.push("/results");
+    } catch (error) {
+      console.error(error);
+
+      alert(
+        "Something went wrong."
+      );
+    } finally {
       setLoading(false);
-    }, 1200);
+    }
   };
 
   return (
-  <div className="w-full min-h-screen flex items-center justify-center px-6 py-20">
-      <div className="w-full max-w-3xl">
+    <div className="w-full max-w-6xl px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="rounded-[36px] border border-purple-500/20 bg-gradient-to-br from-[#12061d] to-[#1c0a2a] p-8 md:p-14"
+      >
+        <div className="mb-12">
+          <h2 className="text-5xl font-black text-white">
+            Enter your AI spend
+          </h2>
 
-        {/* FORM */}
-        <form
-          onSubmit={handleSubmit}
-          className="relative overflow-hidden rounded-3xl border border-purple-200 bg-white shadow-2xl"
-        >
+          <p className="mt-5 text-xl text-gray-300">
+            Analyze subscriptions and uncover savings opportunities.
+          </p>
+        </div>
 
-          {/* Background Pattern */}
-          {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f3f4f6_1px,transparent_1px),linear-gradient(to_bottom,#f3f4f6_1px,transparent_1px)] bg-[size:5rem_5rem]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_700px_at_100%_200px,#d8b4fe,transparent)]"></div>
-          </div> */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
 
-          <div className="p-8 md:p-10">
+          {/* TOOL */}
+          <div>
+            <label className="mb-3 block text-lg text-white">
+              AI Tool
+            </label>
 
-            {/* Heading */}
-            <div className="mb-10 text-center">
-              <h2 className="text-4xl font-bold text-black">
-                Enter your AI spend
-              </h2>
-
-              <p className="text-gray-600 mt-3 text-lg leading-relaxed">
-                Analyze subscriptions,
-                detect wasted spend,
-                compare plans, and
-                uncover optimization
-                opportunities across
-                your AI stack.
-              </p>
-            </div>
-
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-              {/* Tool */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Tool
-                </label>
-
-                <select
-                  name="tool"
-                  value={form.tool}
-                  onChange={
-                    handleChange
-                  }
-                  className="w-full rounded-xl border border-gray-300 bg-white/80 p-4 text-black outline-none transition focus:border-purple-500 focus:ring-4 focus:ring-purple-200"
-                  required
-                >
-                  <option value="">
-                    Select Tool
-                  </option>
-
-                  <option value="chatgpt">
-                    ChatGPT
-                  </option>
-
-                  <option value="claude">
-                    Claude
-                  </option>
-
-                  <option value="cursor">
-                    Cursor
-                  </option>
-
-                  <option value="copilot">
-                    GitHub Copilot
-                  </option>
-
-                  <option value="gemini">
-                    Gemini
-                  </option>
-
-                  <option value="windsurf">
-                    Windsurf
-                  </option>
-
-                  <option value="openai_api">
-                    OpenAI API
-                  </option>
-
-                  <option value="anthropic_api">
-                    Anthropic API
-                  </option>
-                </select>
-              </div>
-
-              {/* Plan */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Current Plan
-                </label>
-
-                <select
-                  name="plan"
-                  value={form.plan}
-                  onChange={
-                    handleChange
-                  }
-                  className="w-full rounded-xl border border-gray-300 bg-white/80 p-4 text-black outline-none transition focus:border-purple-500 focus:ring-4 focus:ring-purple-200"
-                  required
-                >
-                  <option value="">
-                    Select Plan
-                  </option>
-
-                  <option value="free">
-                    Free
-                  </option>
-
-                  <option value="plus">
-                    Plus
-                  </option>
-
-                  <option value="pro">
-                    Pro
-                  </option>
-
-                  <option value="max">
-                    Max
-                  </option>
-
-                  <option value="team">
-                    Team
-                  </option>
-
-                  <option value="business">
-                    Business
-                  </option>
-
-                  <option value="enterprise">
-                    Enterprise
-                  </option>
-
-                  <option value="individual">
-                    Individual
-                  </option>
-
-                  <option value="api">
-                    API Direct
-                  </option>
-                </select>
-              </div>
-
-              {/* Spend */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Monthly Spend ($)
-                </label>
-
-                <input
-                  type="number"
-                  name="spend"
-                  placeholder="20"
-                  value={form.spend}
-                  onChange={
-                    handleChange
-                  }
-                  className="w-full rounded-xl border border-gray-300 bg-white/80 p-4 text-black placeholder-gray-500 outline-none transition focus:border-purple-500 focus:ring-4 focus:ring-purple-200"
-                  required
-                />
-              </div>
-
-              {/* Seats */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Seats Purchased
-                </label>
-
-                <input
-                  type="number"
-                  name="seats"
-                  placeholder="5"
-                  value={form.seats}
-                  onChange={
-                    handleChange
-                  }
-                  className="w-full rounded-xl border border-gray-300 bg-white/80 p-4 text-black placeholder-gray-500 outline-none transition focus:border-purple-500 focus:ring-4 focus:ring-purple-200"
-                  required
-                />
-              </div>
-
-              {/* Team Size */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Active Team Size
-                </label>
-
-                <input
-                  type="number"
-                  name="teamSize"
-                  placeholder="2"
-                  value={
-                    form.teamSize
-                  }
-                  onChange={
-                    handleChange
-                  }
-                  className="w-full rounded-xl border border-gray-300 bg-white/80 p-4 text-black placeholder-gray-500 outline-none transition focus:border-purple-500 focus:ring-4 focus:ring-purple-200"
-                  required
-                />
-              </div>
-
-              {/* Use Case */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Primary Use Case
-                </label>
-
-                <select
-                  name="useCase"
-                  value={
-                    form.useCase
-                  }
-                  onChange={
-                    handleChange
-                  }
-                  className="w-full rounded-xl border border-gray-300 bg-white/80 p-4 text-black outline-none transition focus:border-purple-500 focus:ring-4 focus:ring-purple-200"
-                  required
-                >
-                  <option value="">
-                    Select Use Case
-                  </option>
-
-                  <option value="coding">
-                    Coding
-                  </option>
-
-                  <option value="writing">
-                    Writing
-                  </option>
-
-                  <option value="research">
-                    Research
-                  </option>
-
-                  <option value="data">
-                    Data Analysis
-                  </option>
-
-                  <option value="mixed">
-                    Mixed Workloads
-                  </option>
-                </select>
-              </div>
-            </div>
-
-            {/* Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full mt-8 rounded-2xl bg-purple-900 py-4 text-lg font-semibold text-white transition hover:bg-purple-500 shadow-lg shadow-purple-500/30 disabled:opacity-70"
+            <select
+              name="tool"
+              value={form.tool}
+              onChange={handleChange}
+              required
+              className="h-16 w-full rounded-2xl bg-[#1f112c] px-5 text-white"
             >
-              {loading
-                ? "Analyzing Spend..."
-                : "Run Audit"}
-            </button>
+              <option value="">
+                Select Tool
+              </option>
+
+              <option>
+                Cursor
+              </option>
+
+              <option>
+                GitHub Copilot
+              </option>
+
+              <option>
+                Claude
+              </option>
+
+              <option>
+                ChatGPT
+              </option>
+
+              <option>
+                Anthropic API
+              </option>
+
+              <option>
+                OpenAI API
+              </option>
+
+              <option>
+                Gemini
+              </option>
+
+              <option>
+                Windsurf
+              </option>
+
+              <option>
+                v0
+              </option>
+            </select>
           </div>
-        </form>
-      </div>
+
+          {/* PLAN */}
+          <div>
+            <label className="mb-3 block text-lg text-white">
+              Current Plan
+            </label>
+
+            <select
+              name="currentPlan"
+              value={form.currentPlan}
+              onChange={handleChange}
+              required
+              className="h-16 w-full rounded-2xl bg-[#1f112c] px-5 text-white"
+            >
+              <option value="">
+                Select Plan
+              </option>
+
+              <option>
+                Free
+              </option>
+
+              <option>
+                Hobby
+              </option>
+
+              <option>
+                Individual
+              </option>
+
+              <option>
+                Plus
+              </option>
+
+              <option>
+                Pro
+              </option>
+
+              <option>
+                Max
+              </option>
+
+              <option>
+                Business
+              </option>
+
+              <option>
+                Team
+              </option>
+
+              <option>
+                Enterprise
+              </option>
+
+              <option>
+                API Direct
+              </option>
+
+              <option>
+                Ultra
+              </option>
+            </select>
+          </div>
+
+          {/* SPEND */}
+          <div>
+            <label className="mb-3 block text-lg text-white">
+              Monthly Spend ($)
+            </label>
+
+            <input
+              type="number"
+              name="spend"
+              value={form.spend}
+              onChange={handleChange}
+              required
+              placeholder="50"
+              className="h-16 w-full rounded-2xl bg-[#1f112c] px-5 text-white"
+            />
+          </div>
+
+          {/* SEATS */}
+          <div>
+            <label className="mb-3 block text-lg text-white">
+              Number of Seats
+            </label>
+
+            <input
+              type="number"
+              name="seats"
+              value={form.seats}
+              onChange={handleChange}
+              required
+              placeholder="5"
+              className="h-16 w-full rounded-2xl bg-[#1f112c] px-5 text-white"
+            />
+          </div>
+
+          {/* TEAM SIZE */}
+          <div>
+            <label className="mb-3 block text-lg text-white">
+              Team Size
+            </label>
+
+            <input
+              type="number"
+              name="teamSize"
+              value={form.teamSize}
+              onChange={handleChange}
+              required
+              placeholder="3"
+              className="h-16 w-full rounded-2xl bg-[#1f112c] px-5 text-white"
+            />
+          </div>
+
+          {/* USE CASE */}
+          <div>
+            <label className="mb-3 block text-lg text-white">
+              Primary Use Case
+            </label>
+
+            <select
+              name="useCase"
+              value={form.useCase}
+              onChange={handleChange}
+              required
+              className="h-16 w-full rounded-2xl bg-[#1f112c] px-5 text-white"
+            >
+              <option value="">
+                Select Use Case
+              </option>
+
+              <option>
+                Coding
+              </option>
+
+              <option>
+                Writing
+              </option>
+
+              <option>
+                Research
+              </option>
+
+              <option>
+                Data
+              </option>
+
+              <option>
+                Mixed
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="mt-12 h-16 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 px-10 text-lg font-bold text-white"
+        >
+          {loading
+            ? "Analyzing..."
+            : "Run AI Audit"}
+        </button>
+      </form>
     </div>
   );
 }
