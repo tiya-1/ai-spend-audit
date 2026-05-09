@@ -1,9 +1,9 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { runAudit } from "@/lib/auditEngine";
-import { saveAuditToFirebase } from "@/lib/firebase";
 
 export default function SpendForm() {
   const router = useRouter();
@@ -81,15 +81,11 @@ export default function SpendForm() {
 
       localStorage.setItem(
         "audit-result",
-        JSON.stringify(auditResult)
+        JSON.stringify({
+          ...cleanedForm,
+          ...auditResult,
+        })
       );
-
-      await saveAuditToFirebase({
-        ...cleanedForm,
-        ...auditResult,
-        createdAt:
-          new Date().toISOString(),
-      });
 
       router.push("/results");
     } catch (error) {
@@ -343,3 +339,4 @@ export default function SpendForm() {
     </div>
   );
 }
+

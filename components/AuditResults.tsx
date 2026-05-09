@@ -1,10 +1,32 @@
+
 "use client";
+
+import { useState } from "react";
 
 export default function AuditResults({
   result,
 }: {
   result: any;
 }) {
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [role, setRole] = useState("");
+  const [teamSizeInput, setTeamSizeInput] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [success, setSuccess] =
+    useState("");
+
+  const [error, setError] =
+    useState("");
+
+  // Honeypot field
+  const [website, setWebsite] =
+    useState("");
+
   if (!result) {
     return (
       <div className="text-white">
@@ -20,6 +42,107 @@ export default function AuditResults({
   const annualSavings = Number(
     result?.annualSavings || 0
   );
+
+  async function handleSubmit() {
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      // SAVE LEAD
+      const leadResponse = await fetch(
+        "/api/lead",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            email,
+            company,
+            role,
+            teamSize: teamSizeInput,
+
+            tool: result.tool,
+
+            currentPlan:
+              result.currentPlan,
+
+            recommendedPlan:
+              result.recommendedPlan,
+
+            monthlySavings,
+
+            annualSavings,
+
+            honeypot: website,
+          }),
+        }
+      );
+
+      const leadData =
+        await leadResponse.json();
+
+      if (!leadResponse.ok) {
+        throw new Error(
+          leadData.error ||
+            "Failed to save lead"
+        );
+      }
+
+      // SEND EMAIL
+      const notifyResponse =
+        await fetch(
+          "/api/notify",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+              email,
+              company,
+              role,
+              teamSize:
+                teamSizeInput,
+            }),
+          }
+        );
+
+      const notifyData =
+        await notifyResponse.json();
+
+      if (!notifyResponse.ok) {
+        throw new Error(
+          notifyData.error ||
+            "Failed to send email"
+        );
+      }
+
+      setSuccess(
+        "Report request submitted successfully."
+      );
+
+      setEmail("");
+      setCompany("");
+      setRole("");
+      setTeamSizeInput("");
+      setWebsite("");
+    } catch (err: any) {
+      setError(
+        err.message ||
+          "Failed to submit"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 px-4 pb-20">
@@ -92,7 +215,8 @@ export default function AuditResults({
           </p>
 
           <h3 className="mt-3 text-3xl font-bold text-white">
-            {result.currentPlan || "N/A"}
+            {result.currentPlan ||
+              "N/A"}
           </h3>
         </div>
 
@@ -102,7 +226,8 @@ export default function AuditResults({
           </p>
 
           <h3 className="mt-3 text-3xl font-bold text-green-400">
-            {result.recommendedPlan || result.currentPlan}
+            {result.recommendedPlan ||
+              result.currentPlan}
           </h3>
         </div>
       </div>
@@ -165,22 +290,91 @@ export default function AuditResults({
           Receive a detailed AI optimization report and future saving recommendations.
         </p>
 
-        <div className="mt-8 flex flex-col gap-4 md:flex-row">
+        <div className="mt-8 space-y-4">
 
           <input
             type="email"
             placeholder="Enter your email"
-            className="h-14 flex-1 rounded-2xl bg-black/30 px-5 text-white outline-none"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+            className="h-14 w-full rounded-2xl bg-black/30 px-5 text-white outline-none"
+          />
+
+          <input
+            type="text"
+            placeholder="Company Name (Optional)"
+            value={company}
+            onChange={(e) =>
+              setCompany(
+                e.target.value
+              )
+            }
+            className="h-14 w-full rounded-2xl bg-black/30 px-5 text-white outline-none"
+          />
+
+          <input
+            type="text"
+            placeholder="Your Role (Optional)"
+            value={role}
+            onChange={(e) =>
+              setRole(e.target.value)
+            }
+            className="h-14 w-full rounded-2xl bg-black/30 px-5 text-white outline-none"
+          />
+
+          <input
+            type="number"
+            placeholder="Team Size (Optional)"
+            value={teamSizeInput}
+            onChange={(e) =>
+              setTeamSizeInput(
+                e.target.value
+              )
+            }
+            className="h-14 w-full rounded-2xl bg-black/30 px-5 text-white outline-none"
+          />
+
+          {/* Honeypot */}
+          <input
+            type="text"
+            value={website}
+            onChange={(e) =>
+              setWebsite(
+                e.target.value
+              )
+            }
+            className="hidden"
+            tabIndex={-1}
+            autoComplete="off"
           />
 
           <button
-            className="h-14 rounded-2xl bg-gradient-to-r from-pink-500 to-purple-600 px-8 text-lg font-bold text-white"
+            onClick={handleSubmit}
+            disabled={loading}
+            className="h-14 w-full rounded-2xl bg-gradient-to-r from-pink-500 to-purple-600 px-8 text-lg font-bold text-white disabled:opacity-50"
           >
-            Send Report
+            {loading
+              ? "Sending..."
+              : "Send Report"}
           </button>
+
+          {success && (
+            <p className="text-green-400">
+              {success}
+            </p>
+          )}
+
+          {error && (
+            <p className="text-red-400">
+              {error}
+            </p>
+          )}
         </div>
       </div>
 
     </div>
   );
 }
+

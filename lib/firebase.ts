@@ -1,13 +1,8 @@
-import { initializeApp } from "firebase/app";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-} from "firebase/firestore";
+import { initializeApp, getApps } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey:
-    process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
 
   authDomain:
     process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -25,29 +20,9 @@ const firebaseConfig = {
     process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+const app =
+  getApps().length === 0
+    ? initializeApp(firebaseConfig)
+    : getApps()[0];
 
 export const db = getFirestore(app);
-
-export async function saveAuditToFirebase(
-  data: any
-) {
-  try {
-    const docRef = await addDoc(
-      collection(db, "audits"),
-      data
-    );
-
-    console.log(
-      "Saved to Firebase:",
-      docRef.id
-    );
-
-    return docRef.id;
-  } catch (error) {
-    console.error(
-      "Firebase save error:",
-      error
-    );
-  }
-}
