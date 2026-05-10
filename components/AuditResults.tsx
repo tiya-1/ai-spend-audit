@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -26,6 +25,20 @@ export default function AuditResults({
   // Honeypot field
   const [website, setWebsite] =
     useState("");
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(
+        window.location.href
+      );
+
+      alert(
+        "Link copied!"
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   if (!result) {
     return (
@@ -167,6 +180,13 @@ export default function AuditResults({
               Potential annual savings: $
               {annualSavings}
             </p>
+
+            <button
+              onClick={copyLink}
+              className="mt-6 rounded-2xl bg-white/10 px-6 py-3 text-white transition hover:bg-white/20"
+            >
+              Copy Share Link
+            </button>
           </div>
         </div>
       </div>
@@ -275,6 +295,7 @@ export default function AuditResults({
 
         <p className="mt-6 text-lg leading-relaxed text-green-100 md:text-2xl">
           {result.recommendation ||
+            result.summary ||
             "Your setup already looks optimized."}
         </p>
       </div>
@@ -377,4 +398,3 @@ export default function AuditResults({
     </div>
   );
 }
-

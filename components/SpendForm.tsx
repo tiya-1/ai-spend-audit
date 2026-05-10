@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { runAudit } from "@/lib/auditEngine";
 
+import { saveAuditToFirebase } from "@/lib/saveAudit";
+
 export default function SpendForm() {
   const router = useRouter();
 
@@ -79,15 +81,26 @@ export default function SpendForm() {
         auditResult
       );
 
+      const finalResult = {
+        ...cleanedForm,
+        ...auditResult,
+        createdAt:
+          new Date().toISOString(),
+      };
+
       localStorage.setItem(
         "audit-result",
-        JSON.stringify({
-          ...cleanedForm,
-          ...auditResult,
-        })
+        JSON.stringify(finalResult)
       );
 
-      router.push("/results");
+      const auditId =
+        await saveAuditToFirebase(
+          finalResult
+        );
+
+      router.push(
+        `/results/${auditId}`
+      );
     } catch (error) {
       console.error(error);
 
