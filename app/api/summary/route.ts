@@ -48,7 +48,7 @@ Return only the paragraph.
         data.choices?.[0]?.message?.content ||
         "Your AI stack has optimization opportunities through smarter plan allocation and spend management.",
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({
       summary:
         "Your AI stack has optimization opportunities through smarter plan allocation and vendor consolidation.",
