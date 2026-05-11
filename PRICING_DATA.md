@@ -1,94 +1,49 @@
-# Pricing Data Sources
-
-## ChatGPT
-- Free: $0/month  
-- Plus: $20/month  
-- Team: $25/user/month  
-- Enterprise: Custom pricing  
-- API: Usage-based pricing  
-
-Official:
-https://openai.com/chatgpt/pricing/
-https://openai.com/api/pricing/
-
----
-
-## Claude
-- Free: $0/month  
-- Pro: $20/month  
-- Max: $100/month+  
-- Team: Custom/team pricing  
-- Enterprise: Custom pricing  
-- API Direct: Usage-based pricing  
-
-Official:
-https://www.anthropic.com/pricing
-https://www.anthropic.com/api
-
----
-
-## GitHub Copilot
-- Free: $0/month  
-- Individual: $10/month  
-- Business: $19/user/month  
-- Enterprise: $39/user/month  
-
-Official:
-https://github.com/features/copilot
-
----
+# PRICING_DATA
 
 ## Cursor
-- Hobby: Free  
-- Pro: $20/month  
-- Business: $40/user/month  
-- Enterprise: Custom pricing  
 
-Official:
-https://cursor.com/pricing
+* Hobby: Free — https://cursor.com/pricing — verified 2026-05-10
+* Pro: $20/user/month — https://cursor.com/pricing — verified 2026-05-10
+* Business: $40/user/month — https://cursor.com/pricing — verified 2026-05-10
+* Enterprise: Custom pricing — https://cursor.com/pricing — verified 2026-05-10
 
----
+## GitHub Copilot
 
-## Gemini
-- Free: $0/month  
-- Pro / Advanced: $19.99/month  
-- Ultra: Premium tier pricing varies  
-- API: Usage-based pricing  
+* Individual: $10/user/month — https://github.com/features/copilot/plans — verified 2026-05-10
+* Business: $19/user/month — https://github.com/features/copilot/plans — verified 2026-05-10
+* Enterprise: $39/user/month — https://github.com/features/copilot/plans — verified 2026-05-10
 
-Official:
-https://one.google.com/about/ai-premium/
-https://ai.google.dev/pricing
+## Claude
 
----
+* Free: Free — https://www.anthropic.com/pricing#plans — verified 2026-05-10
+* Pro: $20/user/month — https://www.anthropic.com/pricing#plans — verified 2026-05-10
+* Max: $100/user/month — https://www.anthropic.com/pricing#plans — verified 2026-05-10
+* Team: $30/user/month — https://www.anthropic.com/pricing#plans — verified 2026-05-10
+* Enterprise: Custom pricing — https://www.anthropic.com/pricing#plans — verified 2026-05-10
+* API direct: Usage-based pricing — https://www.anthropic.com/pricing#api — verified 2026-05-10
 
-## Windsurf
-- Free tier available  
-- Pro pricing available  
-- Enterprise pricing available  
+## ChatGPT
 
-Official:
-https://codeium.com/windsurf
-
----
-
-## OpenAI API
-- Usage-based pricing  
-
-Official:
-https://openai.com/api/pricing/
-
----
+* Plus: $20/user/month — https://openai.com/chatgpt/pricing — verified 2026-05-10
+* Team: $30/user/month — https://openai.com/chatgpt/pricing — verified 2026-05-10
+* Enterprise: Custom pricing — https://openai.com/chatgpt/pricing — verified 2026-05-10
+* API direct: Usage-based pricing — https://openai.com/api/pricing — verified 2026-05-10
 
 ## Anthropic API
-- Usage-based pricing  
 
-Official:
-https://www.anthropic.com/api
+* Claude Sonnet API: Usage-based pricing — https://www.anthropic.com/pricing#api — verified 2026-05-10
+* Claude Opus API: Usage-based pricing — https://www.anthropic.com/pricing#api — verified 2026-05-10
 
----
+## OpenAI API
 
-## Notes
-- Pricing verified during submission week
-- Official vendor pricing pages used wherever possible
-- Enterprise pricing may vary by contract size
-- API pricing varies by usage/token consumption
+* GPT API pricing: Usage-based pricing — https://openai.com/api/pricing — verified 2026-05-10
+
+## Gemini
+
+* Pro: $20/user/month — https://one.google.com/about/ai-premium/ — verified 2026-05-10
+* Ultra: $125/user/month — https://one.google.com/about/ai-premium/ — verified 2026-05-10
+* API: Usage-based pricing — https://ai.google.dev/pricing — verified 2026-05-10
+
+## Windsurf
+
+* Pro: $15/user/month — https://codeium.com/windsurf — verified 2026-05-10

@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Spend Audit
 
-## Getting Started
+AI Spend Audit is a SaaS-style web application that analyzes AI tool subscriptions and identifies cost-saving opportunities for startups and teams. Users can enter their current AI stack usage and instantly receive personalized recommendations, projected savings, and a shareable audit report.
 
-First, run the development server:
+The tool is designed for founders, developers, and small teams who want visibility into unnecessary AI subscription costs across tools like ChatGPT, Claude, Cursor, Gemini, and GitHub Copilot.
 
-```bash
+## Live Demo
+
+https://ai-spend-audit-rho-one.vercel.app
+
+## Features
+
+* AI spend analysis
+* Personalized optimization recommendations
+* Estimated monthly + annual savings
+* Shareable public result URLs
+* Firebase persistence
+* Open Graph sharing support
+* Lead capture form
+* Responsive UI
+* Automated tests
+* GitHub Actions CI
+
+## Screenshots
+
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
+Example:
+
+* Homepage
+* Audit form
+* Results page
+
+Or add a Loom/YouTube walkthrough link.
+
+## Quick Start
+
+### Install
+
+
+npm install
+
+
+### Run locally
+
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Run tests
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+npx vitest run
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deploy easily with Vercel.
 
-## Deploy on Vercel
+Required environment variables:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
+
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_PRIVATE_KEY=
+
+OPENROUTER_API_KEY=
+RESEND_API_KEY=
+
+NEXT_PUBLIC_BASE_URL=
+
+
+## Decisions / Trade-offs
+
+### 1. Firebase instead of a SQL database
+
+Firebase allowed faster iteration and simplified deployment while still supporting public audit URLs and lead persistence.
+
+### 2. Rule-based audit engine instead of fully AI-generated recommendations
+
+I prioritized deterministic and testable outputs over fully dynamic LLM reasoning to ensure reliable savings calculations.
+
+### 3. Next.js App Router
+
+I used the App Router for dynamic route support, metadata generation, and server-side APIs in a single framework.
+
+### 4. Public share pages without authentication
+
+This improves virality and reduces friction, though it sacrifices some privacy controls.
+
+### 5. Tailwind CSS over component-heavy UI frameworks
+
+Tailwind allowed rapid iteration and lightweight styling without depending heavily on prebuilt templates.

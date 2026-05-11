@@ -32,3 +32,19 @@
 **Blockers / what I'm stuck on:** Still need to fully test how Open Graph previews behave after production deployment because localhost does not generate external previews properly. Need to add automated tests and CI workflow next.
 
 **Plan for tomorrow:** Deploy the application to Vercel, configure production environment variables, add audit engine tests, and start writing architecture and documentation files.
+
+## Day 4 — 2026-05-11
+
+**Hours worked:** 3
+
+**What I did:**
+Configured automated testing using Vitest, wrote 5 audit engine test cases, created a GitHub Actions CI workflow for linting and tests, and started preparing documentation files including README, ARCHITECTURE, and TESTS documentation.
+
+**What I learned:**
+Learned how automated CI pipelines improve reliability and how small mismatches between implementation and test expectations can quickly break test suites.
+
+**Blockers / what I'm stuck on:**
+Had some issues with import paths and mismatched field names between the audit engine and test assertions.
+
+**Plan for tomorrow:**
+Finish remaining documentation, improve product positioning files, and polish the final deployed experience.
