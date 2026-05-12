@@ -1,3 +1,18 @@
+## Day 0 — 2026-05-07
+**Hours worked:** 2
+
+**What I did:** 
+Carefully analyzed the assignment PDF, evaluation criteria, and deliverables before starting development. Broke the project into engineering tasks, deployment tasks, testing requirements, and entrepreneurial documentation requirements. Planned the MVP scope and decided to prioritize a working audit flow before optional bonus features.
+
+**What I learned:** 
+I learned that this project evaluates not only coding ability but also product thinking, documentation quality, deployment readiness, and business reasoning. I also understood the importance of maintaining clean git history and daily progress logs.
+
+**Blockers / what I'm stuck on:** 
+Initially overwhelmed by the number of required files and evaluation criteria. Needed time to understand how all deliverables connect together.
+
+**Plan for tomorrow:** 
+Set up the Next.js project, design the audit flow, and begin implementing the spend analysis engine.
+
 ## Day 1 — 2026-05-08
 **Hours worked:** 5
 
@@ -48,3 +63,19 @@ Had some issues with import paths and mismatched field names between the audit e
 
 **Plan for tomorrow:**
 Finish remaining documentation, improve product positioning files, and polish the final deployed experience.
+
+## Day 5 — 2026-05-12
+
+**Hours worked:** 5
+
+**What I did:**
+Completed most remaining project deliverables including LANDING_COPY.md, GTM.md, ECONOMICS.md, METRICS.md, and USER_INTERVIEWS.md. I also reviewed deployment, CI configuration, automated tests, and pricing documentation to ensure the final submission requirements were covered properly.
+
+**What I learned:**
+I learned that users often approach AI subscriptions very differently depending on budget and usage frequency. Some users rely heavily on free credits or student offers instead of long-term subscriptions, which changed how I think about AI pricing optimization products.
+
+**Blockers / what I'm stuck on:**
+Balancing exams with documentation and outreach work was challenging, especially while trying to gather realistic user feedback within a short timeline.
+
+**Plan for tomorrow:**
+Do a final project review including README screenshots, GitHub Actions verification, deployment checks, and proofreading across all submission files. Also complete the USER_INTERVIEWS.md section further if I receive replies from the outreach messages I sent.

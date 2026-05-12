@@ -34,7 +34,6 @@ Example:
 * Audit form
 * Results page
 
-Or add a Loom/YouTube walkthrough link.
 
 ## Quick Start
 
