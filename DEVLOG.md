@@ -1,4 +1,4 @@
-## Day 0 — 2026-05-07
+## Day 1 — 2026-05-07
 **Hours worked:** 2
 
 **What I did:** 
@@ -13,7 +13,7 @@ Initially overwhelmed by the number of required files and evaluation criteria. N
 **Plan for tomorrow:** 
 Set up the Next.js project, design the audit flow, and begin implementing the spend analysis engine.
 
-## Day 1 — 2026-05-08
+## Day 2 — 2026-05-08
 **Hours worked:** 5
 
 **What I did:** Built the initial AI audit flow using Next.js and Tailwind CSS. Created the spend input form with fields for AI tool, plan, seats, spend, and use case. Implemented localStorage persistence so user inputs survive refreshes. Started building the core audit engine logic for calculating savings and recommendations.
@@ -25,7 +25,7 @@ Set up the Next.js project, design the audit flow, and begin implementing the sp
 **Plan for tomorrow:** Finish the audit engine logic, improve result UI styling, and begin Firebase integration for saving audit results.
 
 
-## Day 2 — 2026-05-09
+## Day 3 — 2026-05-09
 **Hours worked:** 6
 
 **What I did:** Integrated Firebase Firestore into the project for storing audit data and leads. Added API routes for saving and fetching audit results. Created dynamic public result URLs using audit IDs. Built the results page UI with savings cards, recommendation sections, and AI-generated summaries.
@@ -37,7 +37,7 @@ Set up the Next.js project, design the audit flow, and begin implementing the sp
 **Plan for tomorrow:** Fix remaining recommendation rendering issues, implement Open Graph metadata for shareable audit links, and prepare the project for deployment.
 
 
-## Day 3 — 2026-05-10
+## Day 4 — 2026-05-10
 **Hours worked:** 7
 
 **What I did:** Finished the public shareable audit result flow and implemented copy-link functionality. Added dynamic metadata generation for Open Graph and Twitter preview support on result pages. Improved recommendation logic and cleaned up several UI inconsistencies. Tested dynamic result routes and API fetching.
@@ -48,7 +48,7 @@ Set up the Next.js project, design the audit flow, and begin implementing the sp
 
 **Plan for tomorrow:** Deploy the application to Vercel, configure production environment variables, add audit engine tests, and start writing architecture and documentation files.
 
-## Day 4 — 2026-05-11
+## Day 5 — 2026-05-11
 
 **Hours worked:** 3
 
@@ -64,7 +64,7 @@ Had some issues with import paths and mismatched field names between the audit e
 **Plan for tomorrow:**
 Finish remaining documentation, improve product positioning files, and polish the final deployed experience.
 
-## Day 5 — 2026-05-12
+## Day 6 — 2026-05-12
 
 **Hours worked:** 5
 
@@ -79,3 +79,19 @@ Balancing exams with documentation and outreach work was challenging, especially
 
 **Plan for tomorrow:**
 Do a final project review including README screenshots, GitHub Actions verification, deployment checks, and proofreading across all submission files. Also complete the USER_INTERVIEWS.md section further if I receive replies from the outreach messages I sent.
+
+## Day 7 — 2026-05-13
+
+**Hours worked:** 2
+
+**What I did:**
+Performed a final end-to-end review of the project including deployment verification, GitHub Actions status checks, README screenshots, documentation proofreading, and audit flow testing. I also updated USER_INTERVIEWS.md with additional responses received from outreach messages and ensured all submission requirements were organized correctly.
+
+**What I learned:**
+I learned how important final QA and polish are before shipping a product. Small documentation mistakes, deployment issues, or missing requirements can significantly affect the overall quality of a submission even if the core application works correctly.
+
+**Blockers / what I'm stuck on:**
+The main challenge was balancing final project cleanup with university exams and limited available time for outreach follow-ups.
+
+**Plan for tomorrow:**
+Project submission completed.
